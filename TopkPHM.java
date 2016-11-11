@@ -505,22 +505,29 @@ public class TopkPHM {
 		// Change
     StringBuilder buffer = new StringBuilder();
 
+                for(int i=0; i<1000; i++){
+                    System.out.print(utilityarr[i]+" ");
+                }
 		for (int p = 0; p < kvar; p++) {
-			int mx, ind, i;
+			int mx=-1, ind=-1, i;
 			for(i=0; i<1000; i++){
-				mx = -1;
-				ind = -1;
+				//mx = -1;
+				//ind = -1;
 				if(utilityarr[i]>mx){
 					mx = utilityarr[i];
 					ind = i;
 				}
 			}
-			utilityarr[i] = -1;
+                    
+			utilityarr[ind] = -1;
+                        System.out.println(mx+" "+ind);
       for(int j=0; j<1000 && allhui[ind][j]!=0; j++){
-        buffer.append(prefix[i]);
+        buffer.append(allhui[ind][j]);
         buffer.append(' ');
       }
-      buffer.append("\n");
+      writer.write(buffer.toString());
+		writer.newLine();
+                buffer.delete(0, buffer.length());
 		}
     // Change
 		writer.write(buffer.toString());
@@ -827,7 +834,7 @@ public class TopkPHM {
 		// append the last item
 		//buffer.append(utilityList.item);
     allhui[huicount][i] = utilityList.item;
-		utilityarr[huicount] = utilityList.sumIutils;
+		utilityarr[huicount] = (int)utilityList.sumIutils;
 		// append the prefix
 		//for (int i = 0; i < prefixLength; i++) {
 			//buffer.append(prefix[i]);
