@@ -49,7 +49,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * @see Element
  * @author Philippe Fournier-Viger 2016
  */
-public class AlgoPHM {
+public class ClosedPHM {
 
 	/** the number of high-utility itemsets generated */
 	public int phuiCount =0;
@@ -140,7 +140,7 @@ public class AlgoPHM {
 	/**
 	 * Default constructor
 	 */
-	public AlgoPHM() {
+	public ClosedPHM() {
 
 	}
 
@@ -495,7 +495,7 @@ public class AlgoPHM {
 
 		// Mine the database recursively
 		phm(itemsetBuffer, 0, null, listOfUtilityLists, minUtility);
-
+    // Change
     StringBuilder buffer = new StringBuilder();
 
     for (int i = 0; i < huicount; i++) {
@@ -507,6 +507,7 @@ public class AlgoPHM {
       }
       buffer.append("\n");
 		}
+    // Change
 
 		// check the memory usage again and close the file.
 		MemoryLogger.getInstance().checkMemory();
@@ -826,33 +827,33 @@ public class AlgoPHM {
     }
 
     //Create a string buffer
-		StringBuilder buffer = new StringBuilder();
+		//StringBuilder buffer = new StringBuilder();
 		// append the prefix
     int i;
 		for (i = 0; i < prefixLength; i++) {
       allhui[huicount][i] = prefix[i];
-			buffer.append(prefix[i]);
-			buffer.append(' ');
+			//buffer.append(prefix[i]);
+			//buffer.append(' ');
 		}
 		// append the last item
-		buffer.append(utilityList.item);
+		//buffer.append(utilityList.item);
     allhui[huicount][i] = utilityList.item;
 
 		// append the prefix
-		for (int i = 0; i < prefixLength; i++) {
-			buffer.append(prefix[i]);
-			buffer.append(' ');
-		}
+		//for (int i = 0; i < prefixLength; i++) {
+			//buffer.append(prefix[i]);
+			//buffer.append(' ');
+		//}
     // Change
 		// append the last item
-		buffer.append(utilityList.item);
+		//buffer.append(utilityList.item);
 		// append the utility value
 
 
 
 		// write to file
-		writer.write(buffer.toString());
-		writer.newLine();
+		//writer.write(buffer.toString());
+		//writer.newLine();
 	}
 
 
