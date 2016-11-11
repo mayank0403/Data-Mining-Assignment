@@ -43,7 +43,7 @@ import ca.pfv.spmf.tools.MemoryLogger;
  * as described in the conference paper : <br/><br/>
  *
  *  Fournier-Viger, P., Lin, C.W., Duong, Q.-H., Dam, T.-L. (2016). PHM: Mining Periodic High-Utility Itemsets.
- *   Proc. 16th Industrial Conference on Data Mining. Springer LNAI 9728, 15 pages .
+ *   Proc. 16th Industrial Conference on Data Mining. Springer LNAI 9728, 15 pages . d
  *
  * @see UtilityListPHM
  * @see Element
@@ -117,7 +117,12 @@ public class TopkPHM {
   // Change Mayank
   public int kvar, ktemp, ktemp1;
   // Change Mayank
-
+	// Change
+  public int[][] allhui = new int[1000][1000];
+  public int huicount=0;
+  public int[] utilityarr = new int[1000];
+  public int[] willprint = new int[1000];
+  // Change
 
 
 	/** this class represent an item and its utility in a transaction */
@@ -497,6 +502,28 @@ public class TopkPHM {
 		// Mine the database recursively
 		phm(itemsetBuffer, 0, null, listOfUtilityLists, minUtility);
 
+		// Change
+    StringBuilder buffer = new StringBuilder();
+
+		for (int p = 0; p < kvar; p++) {
+			int mx, ind, i;
+			for(i=0; i<1000; i++){
+				mx = -1;
+				ind = -1;
+				if(utilityarr[i]>mx){
+					mx = utilityarr[i];
+					ind = i;
+				}
+			}
+			utilityarr[i] = -1;
+      for(int j=0; j<1000 && allhui[ind][j]!=0; j++){
+        buffer.append(prefix[i]);
+        buffer.append(' ');
+      }
+      buffer.append("\n");
+		}
+    // Change
+		writer.write(buffer.toString());
 		// check the memory usage again and close the file.
 		MemoryLogger.getInstance().checkMemory();
 		// close output file
@@ -559,9 +586,6 @@ public class TopkPHM {
 					// save to file
           // Change
           ktemp++;
-          if(ktemp > kvar){
-            return;
-          }
           // Change
 					writeOut(prefix, prefixLength, X, averagePeriodicity);
 				}
@@ -785,42 +809,40 @@ public class TopkPHM {
 	 */
 	private void writeOut(int[] prefix, int prefixLength, UtilityListPHM utilityList, double averagePeriodicity) throws IOException {
     // Change just in case k exceeds the limit, though it has been checked above as well.
-    ktemp1++;
-    if(kvar<ktemp1)
-        return;
+		huicount++;
+    //supportsaved[huicount] = utilityList.getSupport();
     // Change
+    //int ind=-1;
 		phuiCount++; // increase the number of high utility itemsets found
-		//Create a string buffer
-		StringBuilder buffer = new StringBuilder();
+
+    //Create a string buffer
+		//StringBuilder buffer = new StringBuilder();
 		// append the prefix
-		for (int i = 0; i < prefixLength; i++) {
-			buffer.append(prefix[i]);
-			buffer.append(' ');
+    int i;
+		for (i = 0; i < prefixLength; i++) {
+      allhui[huicount][i] = prefix[i];
+			//buffer.append(prefix[i]);
+			//buffer.append(' ');
 		}
 		// append the last item
-		buffer.append(utilityList.item);
+		//buffer.append(utilityList.item);
+    allhui[huicount][i] = utilityList.item;
+		utilityarr[huicount] = utilityList.sumIutils;
+		// append the prefix
+		//for (int i = 0; i < prefixLength; i++) {
+			//buffer.append(prefix[i]);
+			//buffer.append(' ');
+		//}
+    // Change
+		// append the last item
+		//buffer.append(utilityList.item);
 		// append the utility value
-		buffer.append(" #UTIL: ");
-		buffer.append(utilityList.sumIutils);
-		// append the utility value
-		buffer.append(" #SUP: ");
-		buffer.append(utilityList.getSupport());
 
-		// append the smallest periodicity
-		buffer.append(" #MINPER: ");
-		buffer.append(utilityList.smallestPeriodicity);
 
-		// append the largest periodicity
-		buffer.append(" #MAXPER: ");
-		buffer.append(utilityList.largestPeriodicity);
-
-		// append the average periodicity
-		buffer.append(" #AVGPER: ");
-		buffer.append(averagePeriodicity);
 
 		// write to file
-		writer.write(buffer.toString());
-		writer.newLine();
+		//writer.write(buffer.toString());
+		//writer.newLine();
 	}
 
 
