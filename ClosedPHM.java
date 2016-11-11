@@ -501,11 +501,13 @@ public class ClosedPHM {
     for (int i = 0; i < huicount; i++) {
       for(int j=0; j<1000 && allhui[i][j]!=0; j++){
         if(willprint[i]==0)
-          continue;
-        buffer.append(prefix[i]);
+          break;
+        buffer.append(allhui[i][j]);
         buffer.append(' ');
       }
-      buffer.append("\n");
+      writer.write(buffer.toString());
+		writer.newLine();
+                buffer.delete(0, buffer.length());
 		}
     // Change
 		writer.write(buffer.toString());
@@ -795,14 +797,14 @@ public class ClosedPHM {
     // Change
     int ind=-1;
 		phuiCount++; // increase the number of high utility itemsets found
-    for (int i = 0; i < huicount-1; i++) {
+    for (int i = 1; i < huicount; i++) {
       int j=0;
       int flg = 0;
       for(j=0; j<1000 && j<prefixLength; j++){
         if(allhui[i][j]==prefix[j]){
           flg=2; // will be replaced
         }
-        else if (allhui[i][j]==prefix[j]){
+        else if (allhui[i][j]!=prefix[j]){
           flg = 0; // will not be replaced
           break;
         }
@@ -822,6 +824,8 @@ public class ClosedPHM {
       }
       else{
         willprint[huicount] = 1;
+        if(allhui[i][j]==0)
+            willprint[i] = 0;
       }
 
     }
