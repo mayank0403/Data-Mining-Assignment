@@ -318,6 +318,7 @@ public class ClosedFHM {
       buffer.append("\n");
 		}
     // Change
+		writer.write(buffer.toString());
 		// check the memory usage again and close the file.
 		MemoryLogger.getInstance().checkMemory();
 		// close output file
