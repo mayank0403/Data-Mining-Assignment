@@ -137,7 +137,7 @@ public class TopkPHM {
 	/**
 	 * Default constructor
 	 */
-	public AlgoPHM() {
+	public TopkPHM() {
 
 	}
 
